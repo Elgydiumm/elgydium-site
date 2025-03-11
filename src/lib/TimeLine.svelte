@@ -220,18 +220,27 @@
     {#each sortedItems as item, i}
         {#if item.endDate || item.endDate === null}
             {@const laneIndex = laneAssignments.get(item)}
-            <button tabindex="-1" class="job-duration" 
+            <div
+                role="button" 
+                tabindex="0"
+                class="job-duration" 
                 class:selected={$selectedItem === item}
                 on:click|stopPropagation={() => selectItem(item)}
+                on:keydown={(e) => {
+                    if (e.key === 'Enter' || e.key === ' ') {
+                        e.preventDefault();
+                        selectItem(item);
+                    }
+                }}
                 aria-label={`${item.title} at ${item.company}, ${formatDate(item.startDate)} to ${formatDate(item.endDate || new Date())}`}
                 style="top: {getPositionByDate(item.endDate || new Date())}%; 
-                           height: {getPositionByDate(item.startDate) - getPositionByDate(item.endDate || new Date())}%;
-                           {isMobile ? 
-                             'left: 31px; transform: none;' : 
-                             `left: calc(50% - ${(1 + laneIndex)}vw);`}">
-                <div class="duration-dot end-dot"></div>
-                <div class="duration-dot start-dot"></div>
-            </button>
+                       height: {getPositionByDate(item.startDate) - getPositionByDate(item.endDate || new Date())}%;
+                       {isMobile ? 
+                         'left: 31px; transform: none;' : 
+                         `left: calc(50% - ${(1 + laneIndex)}vw);`}">
+                <span class="duration-dot end-dot"></span>
+                <span class="duration-dot start-dot"></span>
+            </div>
         {/if}
     {/each}
     
