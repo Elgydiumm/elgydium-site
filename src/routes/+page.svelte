@@ -87,7 +87,7 @@
         text-align: center;
         font-size: 5rem;
         width: 100%;
-        margin: 0;
+        margin-bottom: 1vh;
         padding: 0 10px;
         box-sizing: border-box;
     }
@@ -241,7 +241,14 @@
         opacity: 0;
         animation: fadeSlideUp 1.5s ease forwards 2s;
     }
-
+    @media screen and (max-width: 1024px) {
+        .typing-paragraph {
+            white-space: normal;
+            width: 90%;
+            overflow: visible;
+            animation: fadeIn 0.4s ease-in-out forwards 0.7s;
+        }
+    }
     @media screen and (max-width: 768px) {
         .landing h {
             font-size: 2.8rem;
