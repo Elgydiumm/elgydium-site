@@ -25,6 +25,7 @@
 		"vite": "^6.0.0"
 	},
 	"dependencies": {
+		"@sveltejs/adapter-cloudflare": "^5.0.3",
 		"@tailwindcss/vite": "^4.0.12",
 		"prismjs": "^1.29.0",
 		"svelte-intl-precompile": "^0.12.3",
