@@ -10,7 +10,6 @@
     let selectedItemPosition = 0;
     let windowScrollY = 0;
 
-
     let isMobile = false;
     let windowWidth = 0;
 
@@ -298,7 +297,6 @@
 
     <!-- Side panel for selected item details -->
     {#if $selectedItem}
-    {#key $selectedItem}
     <DetailPanel 
     selectedItem={$selectedItem} 
     on:close={() => selectItem(null)} 
@@ -306,7 +304,6 @@
     side={sideAssignments.get($selectedItem)}
     itemPosition={adjustedPositions.get($selectedItem)}
     scrollY={windowScrollY}/>
-    {/key}
     {/if}
 
 </div>

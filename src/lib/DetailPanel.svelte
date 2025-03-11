@@ -21,8 +21,8 @@
 
     export let side = 'right';
 
-    let storedSide = side;
-
+    $: storedSide = side;
+    
     let currentScrollY = scrollY;
 
     $: panelTop = isMobile ? 'auto' : `${itemPosition}%`;
@@ -160,8 +160,8 @@
             // Right side animations
             return {
                 duration: isEntering ? 300 : 250,
-                y: 0,
-                x: isEntering ? 300 : 300, // Enter from right, exit to right
+                x: 0,
+                y: isEntering ? 300 : 300, // Enter from right, exit to right
                 easing: cubicOut
             };
         } else {
@@ -169,8 +169,8 @@
             console.log(side);
             return {
                 duration: isEntering ? 300 : 250,
-                y: 0,
-                x: isEntering ? -300 : -300, // Enter from left, exit to left
+                x: 0,
+                y: isEntering ? -300 : -300, // Enter from left, exit to left
                 easing: cubicOut
             };
         }
@@ -237,11 +237,10 @@
         max-height: 80vh;
     }
     
-    /* Add mobile-specific panel styling */
     .detail-panel.mobile {
-        position:unset; /* Use fixed position */
+        position: unset;
         right: 0;
-        bottom: 0; /* Always at bottom of viewport */
+        bottom: 0; 
         left: 0;
         width: 100%;
         height: 70vh;
@@ -255,7 +254,6 @@
         z-index: 1000;
     }
     
-    /* Pull indicator styling */
     .pull-indicator {
         position: absolute;
         top: 10px;
@@ -275,7 +273,6 @@
         background-color: rgba(255, 255, 255, 0.3);
     }
     
-    /* Mobile close button styling */
     .close-btn.mobile {
         top: 1.5rem;
         right: 1.5rem;
@@ -286,7 +283,6 @@
         z-index: 1001;
     }
     
-    /* Mobile content area styling */
     .detail-content.mobile {
         margin-top: 0.5rem;
         height: calc(100% - 2rem);
@@ -295,7 +291,6 @@
         padding-bottom: 1rem;
     }
     
-    /* Small device adjustments */
     @media screen and (max-width: 380px) {
         .detail-panel.mobile {
             height: 75vh;
