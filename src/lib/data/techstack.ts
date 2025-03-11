@@ -1,0 +1,1 @@
+export const techStack = ["Svelte", "React", "Ansible", "Git", "Python", "C++", "TypeScript", "JavaScript", "Keycloak", "CSS", "HTML", "Node.js", "Godot"];
