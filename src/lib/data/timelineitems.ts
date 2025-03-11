@@ -7,4 +7,12 @@ export const timelineItems = [
         description: "Game Development and Web Development.",
         skills: ["Web Development", "Svelte", "TypeScript", "Game Development", "Godot"]
     },
+    {
+        title: "System Administrator (Internship)",
+        company: "Päivölä Institute",
+        startDate: new Date("2024-05-01"),
+        endDate: null,
+        description: "Managing Ubuntu servers, handling identity & access management with Keycloak and using Ansible to automate processes.",
+        skills: ["Linux", "Ubuntu", "Keycloak", "Ansible", "Networking", "IT-Support"]
+    }
 ];
