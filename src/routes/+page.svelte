@@ -54,7 +54,7 @@
         {#each techStack as techName, i}
             {@const tech = findTechDetails(techName)}
             <div class="tech-box" 
-                 style="animation-delay: {700 + i * 100}ms; background-color: rgba({hexToRgb(tech.color || '#3c3c3c')}, 0.15);">
+                 style="animation-delay: {800 + i * 100}ms; background-color: rgba({hexToRgb(tech.color || '#3c3c3c')}, 0.15);">
                 <span class="tech-icon">
                     {@html tech.icon || `<span class="tech-fallback-icon">${tech.name.charAt(0)}</span>`}
                 </span>
@@ -87,7 +87,7 @@
         text-align: center;
         font-size: 5rem;
         width: 100%;
-        margin: 0;
+        margin-bottom: 1vh;
         padding: 0 10px;
         box-sizing: border-box;
     }
@@ -117,8 +117,11 @@
     .typing-header {
         animation: typing 1.2s steps(90, end) forwards;
     }
+    .typing-paragraph-name {
+        animation: typingWithFade 2s steps(760, end) forwards 0.3s;
+    }
 
-    .typing-paragraph, .typing-paragraph-name {
+    .typing-paragraph {
         animation: typingWithFade 2s steps(760, end) forwards 0.7s;
     }
 
@@ -241,7 +244,14 @@
         opacity: 0;
         animation: fadeSlideUp 1.5s ease forwards 2s;
     }
-
+    @media screen and (max-width: 1024px) {
+        .typing-paragraph {
+            white-space: normal;
+            width: 90%;
+            overflow: visible;
+            animation: fadeIn 0.4s ease-in-out forwards 0.7s;
+        }
+    }
     @media screen and (max-width: 768px) {
         .landing h {
             font-size: 2.8rem;

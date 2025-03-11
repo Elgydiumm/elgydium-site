@@ -6,6 +6,9 @@
     import DetailPanel from './DetailPanel.svelte';
     import { timelineItems } from './data/timelineitems';
 
+    let selectedItemPosition = 0;
+    let windowScrollY = 0;
+
 
     let isMobile = false;
     let windowWidth = 0;
@@ -121,16 +124,19 @@
     let justOpened = false;
     
     const selectedItem = writable<TimelineItem | null>(null);
-    function selectItem(item: any) {
+
+    function selectItem(item: any, event?: MouseEvent) {
+        if (event) {
+            // Get the clicked element and calculate its position relative to the viewport
+            const target = event.currentTarget as HTMLElement;
+            const rect = target.getBoundingClientRect();
+            
+            // Store the y-position (accounting for scroll position)
+            selectedItemPosition = rect.top + window.scrollY;
+            windowScrollY = window.scrollY;
+        }
+        
         selectedItem.update(current => {
-            // If selecting a new item
-            if (current !== item) {
-                justOpened = true;
-                // Reset the flag after a short delay
-                setTimeout(() => {
-                    justOpened = false;
-                }, 10);
-            }
             // Toggle selection - if already selected, deselect it
             return current === item ? null : item;
         });
@@ -277,11 +283,20 @@
             <p>{item.description}</p>
         </div>
     </div>
+    
 {/each}
 
     <!-- Side panel for selected item details -->
     {#if $selectedItem}
-        <DetailPanel selectedItem={$selectedItem} on:close={() => selectItem(null)} isMobile={isMobile}/>
+    {#key $selectedItem}
+    <DetailPanel 
+    selectedItem={$selectedItem} 
+    on:close={() => selectItem(null)} 
+    isMobile={isMobile}
+    side={sideAssignments.get($selectedItem)}
+    itemPosition={adjustedPositions.get($selectedItem)}
+    scrollY={windowScrollY}/>
+    {/key}
     {/if}
 
 </div>

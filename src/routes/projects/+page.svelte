@@ -107,7 +107,6 @@
                     </div>
                     
                     <div class="detail-container">
-                        <div class="fade-edge top"></div>
 
                         <div class="scrollable-content">
                             <ProjectDetailPanel project={project} on:close={closeExpandedView}/>
@@ -197,6 +196,7 @@
         background-position: center;
         position: relative;
         transition: height 0.4s cubic-bezier(0.25, 1, 0.5, 1);
+        box-sizing: border-box;
     }
 
     .expanded .project-image {
@@ -219,6 +219,7 @@
         flex-grow: 1;
         display: flex;
         flex-direction: column;
+        box-sizing: border-box;
     }
 
     .project-content h2 {
@@ -232,6 +233,7 @@
         margin-bottom: auto;
         color: var(--unselected-color);
         font-size: 0.95rem;
+        box-sizing: border-box;
     }
 
     .tech-preview {
@@ -282,7 +284,7 @@
 
     .close-btn {
         position: absolute;
-        top: 2rem;
+        top: 0.4rem;
         right: 0rem;
         background-color: rgba(0, 0, 0, 0.5);
         border: none;
@@ -311,10 +313,10 @@
 
     .detail-container {
         position: absolute;
-        top: 0;
+        top: 200px; /* Position it to start after the image */
         left: 0;
         width: 100%;
-        height: 100%;
+        height: calc(100% - 200px); /* Adjust height to account for image */
         overflow: hidden;
     }
     
@@ -333,12 +335,6 @@
         z-index: 5;
     }
     
-    .fade-edge.top {
-        top: 200px;
-        background: linear-gradient(to bottom, 
-                    rgba(24, 24, 24, 0.95) 0%, 
-                    rgba(24, 24, 24, 0) 100%);
-    }
     
     .fade-edge.bottom {
         bottom: 0;
@@ -360,13 +356,7 @@
             width: 95%;
             height: 85vh;
         }
-        .project-image {
-            display: none;
-        }
         .project-overlay {
-            display: none;
-        }
-        .fade-edge {
             display: none;
         }
     }
