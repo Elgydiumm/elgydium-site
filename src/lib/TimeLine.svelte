@@ -5,6 +5,7 @@
     import { browser } from '$app/environment';
     import DetailPanel from './DetailPanel.svelte';
     import { timelineItems } from './data/timelineitems';
+    import { findTechDetails, hexToRgb } from './utils';
 
     let selectedItemPosition = 0;
     let windowScrollY = 0;
@@ -281,6 +282,15 @@
             <h4>{item.company}</h4>
             <div class="timeline-date">{formatDate(item.startDate)} - {formatDate(item.endDate || new Date())}</div>
             <p>{item.description}</p>
+            {#each item.skills as skill, i}
+                {@const tech = findTechDetails(skill)}
+                <span class="tech-tag" style="background-color: rgba({hexToRgb(tech.color || '#3c3c3c')}, 0.15);">
+                    {#if tech.icon}
+                        <span class="tech-icon">{@html tech.icon}</span>
+                    {/if}
+                    {tech.name}
+                </span>
+            {/each}
         </div>
     </div>
     
@@ -474,6 +484,41 @@
     
     .timeline-content {
         min-height: 110px;
+    }
+
+    .tech-tag {
+        display: inline-flex;
+        align-items: center;
+        border-radius: 4px;
+        padding: 0.5rem;
+        font-size: 0.8rem;
+        background-color: rgba(60, 60, 60, 0.5);
+        backdrop-filter: blur(5px);
+        margin-right: 0.4rem;
+        margin-bottom: 0.4rem;
+        line-height: 1;
+        vertical-align: middle;
+        height: 1.5rem; /* Fixed height for all tags */
+        box-sizing: border-box;
+    }
+
+    .tech-icon {
+        width: 16px;
+        height: 16px;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        margin-right: 5px;
+        font-weight: bold;
+        line-height: 1;
+        flex-shrink: 0; /* Prevent icon from shrinking */
+    }
+    
+    /* Add this to ensure all SVG icons are vertically aligned */
+    .tech-icon :global(svg) {
+        vertical-align: middle;
+        height: 100%;
+        width: 100%;
     }
     
     @media screen and (max-width: 768px) {
