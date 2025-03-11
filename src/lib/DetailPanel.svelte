@@ -1,5 +1,5 @@
 <script lang="ts">
-    import { slide } from 'svelte/transition';
+    import { slide, fly } from 'svelte/transition';
     import { cubicOut } from 'svelte/easing';
     import { createEventDispatcher, onDestroy, onMount } from 'svelte';
     import { browser } from '$app/environment';
@@ -15,6 +15,15 @@
     };
     
     export let isMobile = false;
+
+    export let itemPosition = 0;
+    export let scrollY = 0;
+
+    export let side = 'right';
+
+    let currentScrollY = scrollY;
+
+    $: panelTop = isMobile ? 'auto' : `${itemPosition}%`;
     
     // Track touch start position for swipe to dismiss
     let touchStartY = 0;
@@ -31,8 +40,19 @@
     // Create dispatcher for events back to parent
     const dispatch = createEventDispatcher();
     
+    function handleScroll() {
+        if (!isMobile) {
+            currentScrollY = window.scrollY;
+        }
+    }
+    
     onMount(() => {
         if (!browser) return;
+        
+        if (!isMobile) {
+                window.addEventListener('scroll', handleScroll);
+        }
+
         setTimeout(() => {
             document.addEventListener('click', handleClickOutside);
             
@@ -50,6 +70,11 @@
     
     onDestroy(() => {
         if (!browser) { return; }
+
+        if (!isMobile) {
+            window.removeEventListener('scroll', handleScroll);
+        }
+
         document.removeEventListener('click', handleClickOutside);
         
         if (isMobile) {
@@ -118,16 +143,43 @@
     function closePanel() {
         dispatch('close');
     }
+    console.log(side);
+
+    function getAnimationProps(isEntering: boolean) {
+        if (isMobile) {
+            // Mobile animations always slide up/down
+            return {
+                duration: isEntering ? 300 : 250,
+                y: isEntering ? window.innerHeight : window.innerHeight,
+                x: 0,
+                easing: cubicOut
+            };
+        } else if (side === 'right') {
+            // Right side animations
+            return {
+                duration: isEntering ? 300 : 250,
+                y: 0,
+                x: isEntering ? 300 : 300, // Enter from right, exit to right
+                easing: cubicOut
+            };
+        } else {
+            // Left side animations
+            return {
+                duration: isEntering ? 300 : 250,
+                y: 0,
+                x: isEntering ? -300 : -300, // Enter from left, exit to left
+                easing: cubicOut
+            };
+        }
+    }
 </script>
 
 <div class="detail-panel" 
      class:mobile={isMobile}
-     bind:this={panelElement} 
-     transition:slide={{
-         duration: 300, 
-         axis: isMobile ? 'y' : 'x',
-         easing: cubicOut
-     }}>
+     bind:this={panelElement}
+     style={!isMobile ? `top: ${panelTop}; transform: translateY(-50%); ${side == 'right' ? 'right: 0px' : 'left: 0px'}` : ''} 
+     in:fly={getAnimationProps(true)}
+     out:fly={getAnimationProps(false)}>
     
     <!-- Pull indicator for mobile -->
     {#if isMobile}
@@ -169,10 +221,8 @@
 
 <style>
     .detail-panel {
-        position: fixed;
-        top: 2rem;
+        position:fixed;
         right: 2rem;
-        bottom: 2rem;
         width: 350px;
         background-color: rgba(30, 30, 30, 0.95);
         border-radius: 8px;
@@ -181,27 +231,28 @@
         z-index: 100;
         overflow-y: auto;
         will-change: transform;
+        max-height: 80vh;
     }
     
+    /* Add mobile-specific panel styling */
     .detail-panel.mobile {
-        top: auto;
+        position:unset; /* Use fixed position */
         right: 0;
-        bottom: 0;
+        bottom: 0; /* Always at bottom of viewport */
         left: 0;
         width: 100%;
-        max-width: 100vw;
-        height: auto;
+        height: 70vh;
         max-height: 80vh;
-        box-sizing: border-box;
         border-radius: 16px 16px 0 0;
         box-shadow: 0 -5px 20px rgba(0, 0, 0, 0.4);
         padding: 1.5rem;
         padding-top: 2.5rem;
-        padding-bottom: env(safe-area-inset-bottom, 1.5rem);
-        overflow-y: hidden;
-        -webkit-overflow-scrolling: touch;
+        padding-bottom: calc(1rem + env(safe-area-inset-bottom, 0.5rem));
+        overflow: hidden;
+        z-index: 1000;
     }
     
+    /* Pull indicator styling */
     .pull-indicator {
         position: absolute;
         top: 10px;
@@ -211,6 +262,7 @@
         display: flex;
         justify-content: center;
         align-items: center;
+        pointer-events: none;
     }
     
     .pull-handle {
@@ -218,6 +270,46 @@
         height: 5px;
         border-radius: 3px;
         background-color: rgba(255, 255, 255, 0.3);
+    }
+    
+    /* Mobile close button styling */
+    .close-btn.mobile {
+        top: 1.5rem;
+        right: 1.5rem;
+        width: 36px;
+        height: 36px;
+        font-size: 1.8rem;
+        background-color: rgba(60, 60, 60, 0.7);
+        z-index: 1001;
+    }
+    
+    /* Mobile content area styling */
+    .detail-content.mobile {
+        margin-top: 0.5rem;
+        height: calc(100% - 2rem);
+        overflow-y: auto;
+        -webkit-overflow-scrolling: touch;
+        padding-bottom: 1rem;
+    }
+    
+    /* Small device adjustments */
+    @media screen and (max-width: 380px) {
+        .detail-panel.mobile {
+            height: 75vh;
+        }
+        
+        .detail-content h2 {
+            font-size: 1.5rem;
+        }
+        
+        .detail-content h3 {
+            font-size: 1.1rem;
+        }
+        
+        .tech-tag {
+            padding: 0.25rem 0.5rem;
+            font-size: 0.75rem;
+        }
     }
     
     .close-btn {
@@ -239,14 +331,6 @@
         z-index: 5;
     }
     
-    .close-btn.mobile {
-        top: 1.5rem;
-        right: 1.5rem;
-        width: 44px;
-        height: 44px;
-        font-size: 1.8rem;
-        opacity: 0;
-    }
     
     .close-btn:hover {
         background-color: rgba(80, 80, 80, 0.8);
@@ -255,10 +339,7 @@
     .detail-content {
         margin-top: 1rem;
     }
-    
-    .detail-content.mobile {
-        padding-bottom: 30px;
-    }
+
     
     .detail-content h2 {
         margin-top: 0;
@@ -308,25 +389,5 @@
         align-items: center;
         justify-content: center;
         margin-right: 5px;
-    }
-
-    @media screen and (max-width: 380px) {
-        .detail-panel.mobile {
-            padding: 1rem;
-            padding-top: 2rem;
-            padding-bottom: calc(1.5rem + env(safe-area-inset-bottom, 0px));
-        }
-        
-        .detail-content h2 {
-            font-size: 1.4rem;
-        }
-        
-        .detail-content h3 {
-            font-size: 1.1rem;
-        }
-        
-        .detail-date {
-            font-size: 0.85rem;
-        }
     }
 </style>
