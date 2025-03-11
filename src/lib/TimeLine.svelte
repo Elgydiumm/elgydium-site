@@ -377,7 +377,7 @@
     
     .timeline-item.left-side {
         left: 0;
-        text-align: right;
+        text-align: left;
         padding-right: 40px;
         padding-left: 0;
     }
