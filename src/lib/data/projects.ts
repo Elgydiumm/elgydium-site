@@ -23,7 +23,7 @@ export const projects = [
     {
         id: "shipmarine",
         name: "Shipmarine",
-        shortDescription: "A silly game about a ship with a rocket booster on top with two friends in a weekend for a jam.",
+        shortDescription: "A silly game about a ship with a rocket booster on top. Made with two friends in a weekend for a jam.",
         fullDescription: "Shipmarine is a quirky game built in Godot where your task is to progress as far as possible by evading oncoming obstacles. The ship automatically moves forward, and you control it using a single key that triggers a downward thrust. By combining the force of this thrust with the natural buoyancy of the water, you can lift your ship upward and extend your journey. Made in a weekend with two friends for a game jam.",
         image: '/project_previews/shipmarine.png', // Replace with actual image path
         technologies: ["Godot"],
