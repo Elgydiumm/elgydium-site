@@ -21,6 +21,8 @@
 
     export let side = 'right';
 
+    let storedSide = side;
+
     let currentScrollY = scrollY;
 
     $: panelTop = isMobile ? 'auto' : `${itemPosition}%`;
@@ -154,7 +156,7 @@
                 x: 0,
                 easing: cubicOut
             };
-        } else if (side === 'right') {
+        } else if (storedSide == 'right') {
             // Right side animations
             return {
                 duration: isEntering ? 300 : 250,
@@ -164,6 +166,7 @@
             };
         } else {
             // Left side animations
+            console.log(side);
             return {
                 duration: isEntering ? 300 : 250,
                 y: 0,
