@@ -18,7 +18,7 @@ export const technologies = [
     { name: 'Azure', icon: ` <img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/azure/azure-original.svg" />`, color: '#0089D6' },
     { name: 'Google Cloud', icon: ` <img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/googlecloud/googlecloud-original.svg" />`, color: '#4285F4' },
     { name: 'Node.js', icon: ` <img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/nodejs/nodejs-original.svg" />`, color: '#339933' },
-    { name: 'Express', icon: null, color: '#000000' },
+    { name: 'Express', icon: ` <img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/typescript/typescript-original.svg" />`, color: '#3178C6' },
     { name: 'MongoDB', icon: ` <img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/mongodb/mongodb-original.svg" />`, color: '#47A248' },
     { name: 'Godot', icon: `  <img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/godot/godot-original.svg" />`, color: '#478CBF' },
     { name: 'Unity', icon: `  <img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/unity/unity-original.svg" />`, color: '#000000' },

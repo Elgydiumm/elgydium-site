@@ -31,7 +31,7 @@
 </script>
 
 <div class="detail-panel">
-    <div class="header-spacer"></div>
+    <span class="header-spacer"></span>
     
     <div class="detail-content">
         <!-- Title section -->
@@ -121,6 +121,7 @@
     .section {
         opacity: 1;
         will-change: transform, opacity;
+        box-sizing: border-box;
     }
     
     .project-title {
@@ -135,6 +136,11 @@
         color: var(--unselected-color);
         position: relative;
         margin-top: 0.5rem;
+    }
+
+    .project-description {
+        height: 100%;
+        box-sizing: border-box;
     }
     
     .project-description h4,
