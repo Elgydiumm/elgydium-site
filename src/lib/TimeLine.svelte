@@ -373,6 +373,7 @@
         margin: 0;
         margin-top: 0.2rem;
         margin-bottom: 0.5rem;
+    }
 
     .timeline-date {
         margin: 0;
