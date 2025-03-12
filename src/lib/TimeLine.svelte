@@ -378,6 +378,8 @@
     .timeline-date {
         margin: 0;
         margin-top: 0.2rem;
+        font: var(--p);
+        color: var(--gray70);
      }
     .year-label {
         position: absolute;
