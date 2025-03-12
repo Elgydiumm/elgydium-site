@@ -4,7 +4,7 @@ export const timelineItems = [
         company: "Päivölä Student Innovation Lab",
         startDate: new Date("2023-08-01"),
         endDate: null,
-        description: "Game Development and Web Development.",
+        description: "Worked on finishing a legacy game development project, aswell as refurbishing the lab's website.",
         skills: ["Web Development", "Svelte", "TypeScript", "Game Development", "Godot"]
     },
     {

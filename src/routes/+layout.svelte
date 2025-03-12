@@ -37,15 +37,15 @@
         line-height: 1.5;
         font-weight: 400;
 
-        --h: bold 5rem var(--ff);
-        --h1: bold 3.5rem var(--ff);
-        --h2: bold 2.5rem var(--ff);
-        --h3: bold 1.5rem var(--ff);
-        --h4: bold 1.25rem var(--ff);
-        --h5: bold 1rem var(--ff);
+        --h: bold 5rem/1.5 var(--ff);
+        --h1: bold 3.5rem/1.5 var(--ff);
+        --h2: bold 2.5rem/1.5 var(--ff);
+        --h3: bold 1.5rem/1.5 var(--ff);
+        --h4: bold 1.25rem/1.5 var(--ff);
+        --h5: bold 1rem/1.5 var(--ff);
 
-        --pl: 1.5rem var(--ff);
-        --p: 1rem var(--ff);
+        --pl: 1.5rem/1.3 var(--ff);
+        --p: 1rem/1.3 var(--ff);
 
         --gray100: hsl(0, 0%, 100%);
         --gray90: hsl(0, 0%, 90%);
