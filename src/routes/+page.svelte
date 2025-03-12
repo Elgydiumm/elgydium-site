@@ -84,16 +84,16 @@
     }
 
     .landing h {
+        font: var(--h);
         text-align: center;
-        font-size: 5rem;
         width: 100%;
-        margin-bottom: 1vh;
+        margin-bottom: 2rem;
         padding: 0 10px;
         box-sizing: border-box;
     }
 
     .landing p {
-        font-size: 1.5rem;
+        font: var(--pl);
         text-align: center;
         width: 100%;
         margin: 0;
@@ -104,7 +104,7 @@
 
     .landing p.name {
         font-size: 1.2rem;
-        color: rgb(180, 180, 180);
+        color: var(--gray70);
         margin-top: -1rem;
     }
 
@@ -170,8 +170,7 @@
     }
 
     .tech-name {
-        font-size: 0.85rem;
-        font-weight: 500;
+        font: var(--p);
     }
 
     @keyframes typing {
@@ -235,7 +234,7 @@
     }
 
     .portfolio h {
-        font-size: 3rem;
+        font: var(--h1);
         width: 100%;
         text-align: center;
         margin: 0 0 20px 0;

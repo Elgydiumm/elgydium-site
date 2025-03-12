@@ -226,7 +226,7 @@
     .detail-panel {
         position:fixed;
         right: 2rem;
-        width: 350px;
+        width: 30vw;
         background-color: rgba(30, 30, 30, 0.95);
         border-radius: 8px;
         box-shadow: -5px 0 20px rgba(0, 0, 0, 0.3);
@@ -290,6 +290,56 @@
         -webkit-overflow-scrolling: touch;
         padding-bottom: 1rem;
     }
+
+    .detail-content {
+        position: relative;
+        z-index: 2;
+        min-height: 110px;
+        padding: 15px 20px;
+        background-color: rgba(24, 24, 24, 0.6);
+        border-radius: 6px;
+        box-shadow: 0 3px 10px rgba(0, 0, 0, 0.3);
+        transition: all 0.3s ease;
+    }
+
+    .detail-content h2 {
+        font: var(--h2);
+        color: var(--selected-color);
+        margin: 0;
+    }
+
+    .detail-content h3 {
+        font: var(--h3);
+        margin: 0;
+        margin-top: 2rem;
+    }
+
+    .detail-date {
+        margin: 0;
+        margin-top: 0.2rem;
+        font: var(--p);
+        color: var(--gray70);
+    }
+
+    .detail-description h4 {
+        font: var(--h4);
+        margin: 0;
+        margin-top: 2.5rem;
+    }
+
+    .detail-description p {
+        font: var(--p);
+        color: var(--gray80);
+        margin: 0;
+        margin-top: 0.5rem;
+    }
+    
+    .detail-skills h4 {
+        font: var(--h4);
+        margin: 0;
+        margin-top: 2rem;
+        margin-bottom: 0.7rem;
+    }
     
     @media screen and (max-width: 380px) {
         .detail-panel.mobile {
@@ -334,41 +384,11 @@
         background-color: rgba(80, 80, 80, 0.8);
     }
     
-    .detail-content {
-        margin-top: 1rem;
-    }
-
-    
-    .detail-content h2 {
-        margin-top: 0;
-        font-size: 1.8rem;
-        color: var(--timeline-color);
-    }
-    
-    .detail-content h3 {
-        margin-top: 0.3rem;
-        font-size: 1.3rem;
-        opacity: 0.9;
-    }
-    
-    .detail-date {
-        margin: 1rem 0;
-        font-size: 0.9rem;
-        color: var(--unselected-color);
-    }
-    
-    .detail-description h4,
-    .detail-skills h4 {
-        border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-        padding-bottom: 0.5rem;
-        margin-top: 1.5rem;
-    }
-    
     .skill-tags {
         display: flex;
         flex-wrap: wrap;
         gap: 0.5rem;
-        margin-top: 0.8rem;
+        margin: 0;
     }
     
     .tech-tag {
