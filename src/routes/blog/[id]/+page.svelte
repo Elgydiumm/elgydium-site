@@ -41,7 +41,7 @@
                 
                 <a href="/blog" id="blog" class="close-btn" on:click={goBack}><u>Go Back</u></a>
                 
-                <div class="blog-image expanded" style="background-image: url('{selectedPost.image || '/images/blog-placeholder.jpg'}')">
+                <div class="blog-image expanded" style="background-image: url('{selectedPost.image || ''}')">
                     <div class="blog-overlay"></div>
                     <h1 class="expanded-title">{selectedPost.title}</h1>
                     <div class="expanded-date">{selectedPost.date}</div>
