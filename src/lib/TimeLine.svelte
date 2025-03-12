@@ -349,14 +349,30 @@
         margin: 0;
         margin-top: 1rem;
     }
+
     .timeline-content h4 {
         margin: 0;
-        margin-top: 1rem;
-        font: var(--h4);
+        margin-top: 0.2rem;
+        font: var(--h5);
+        color: var(--gray90);
     }
+    
+    .timeline-content:hover {
+        transform: translateY(-5px);
+        background-color: rgba(24, 24, 24, 0.9);
+    }
+
+    .timeline-content p {
+        font: var(--p);
+        margin: 0;
+        margin-top: 1rem;
+        margin-bottom: 0.8rem;
+    }
+
     .timeline-date {
         margin: 0;
         margin-top: 0.2rem;
+        margin-bottom: 0.5rem;
         font: var(--p);
         color: var(--gray70);
     }
@@ -399,19 +415,6 @@
     .timeline-item.left-side .connector-line {
         right: -30px;
         left: auto;
-    }
-
-    .timeline-content {
-        padding: 15px 20px;
-        background-color: rgba(24, 24, 24, 0.6);
-        border-radius: 6px;
-        box-shadow: 0 3px 10px rgba(0, 0, 0, 0.3);
-        transition: all 0.3s ease;
-    }
-    
-    .timeline-content:hover {
-        transform: translateY(-5px);
-        background-color: rgba(24, 24, 24, 0.9);
     }
     
     .timeline-line {
