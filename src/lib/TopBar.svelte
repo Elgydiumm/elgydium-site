@@ -50,7 +50,6 @@
     const currentPath = derived(page, ($page) => $page.url.pathname);
 </script>
 
-<link href="https://fonts.googleapis.com/css?family=Lexend" rel="stylesheet">
 <nav class="topnav">
   <div class="menu-icon" role="button" tabindex="0" 
        class:active={hamburgerOpen}

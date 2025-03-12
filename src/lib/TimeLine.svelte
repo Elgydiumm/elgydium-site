@@ -1,7 +1,6 @@
 <script lang="ts">
     import { writable } from 'svelte/store';
-    import { slide } from 'svelte/transition';
-    import { onDestroy, onMount } from 'svelte';
+    import { onMount } from 'svelte';
     import { browser } from '$app/environment';
     import DetailPanel from './DetailPanel.svelte';
     import { timelineItems } from './data/timelineitems';
@@ -36,7 +35,7 @@
         return item.startDate < earliest ? item.startDate : earliest;
     }, sortedItems[0]?.startDate || new Date(now.getFullYear() - 3, 0, 1));
     
-    // Calculate years to display (round to include the full year)
+    // Calculate years to display
     const startYear = earliestDate.getFullYear();
     const endYear = latestDate.getFullYear();
     const timelineYears: number[] = [];
@@ -45,12 +44,12 @@
     }
     
     const numberOfYears = endYear - startYear;
-    const baseHeight = 150; // Minimum height per item
-    const yearSpacing = 240; // Height per year
+    const baseHeight = 150;
+    const yearSpacing = 240;
     const dynamicHeight = Math.max(
         sortedItems.length * baseHeight,
         numberOfYears * yearSpacing,
-        600 // Minimum timeline height
+        600
     );
 
     // Calculate position on timeline based on date (0-100%)
@@ -59,8 +58,6 @@
         const dateMs = date.getTime() - earliestDate.getTime();
         return 100 - (dateMs / totalMs * 100);
     }
-
-    console.log(getPositionByDate(new Date(latestDate.getFullYear() + 1, 0, 1)));
     
     // Format date for display
     function formatDate(date: Date) {
@@ -120,8 +117,6 @@
     }
 
     const { laneAssignments, totalLanes } = assignLanes();
-
-    let justOpened = false;
     
     const selectedItem = writable<TimelineItem | null>(null);
 
@@ -143,7 +138,7 @@
     }
 
     function calculateNonOverlappingPositions() {
-        const MIN_PANEL_HEIGHT = 150; // Minimum height needed for a content panel
+        const MIN_PANEL_HEIGHT = 150;
         const positions: { item: TimelineItem; originalPosition: number; height: number }[] = [];
         const adjustedPositions = new Map();
         const sideAssignments = new Map(); // Track left/right side assignments
@@ -347,6 +342,23 @@
         border-radius: 6px;
         box-shadow: 0 3px 10px rgba(0, 0, 0, 0.3);
         transition: all 0.3s ease;
+    }
+
+    .timeline-content h3 {
+        font: var(--h3);
+        margin: 0;
+        margin-top: 1rem;
+    }
+    .timeline-content h4 {
+        margin: 0;
+        margin-top: 1rem;
+        font: var(--h4);
+    }
+    .timeline-date {
+        margin: 0;
+        margin-top: 0.2rem;
+        font: var(--p);
+        color: var(--gray70);
     }
     
     .year-label {

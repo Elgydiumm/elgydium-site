@@ -32,17 +32,28 @@
         --job-color: #2dc918;
         --timeline-color: rgb(30, 255, 0);
 
-        /* Nav link widths*/
-        --about-us-width: 74px;
-        --contact-width: 70px;
-        --home-width: 70px;
-        --services-width: 120px;
-
-
+        --ff: 'Cutive Mono', monospace;
         font-family: 'Cutive Mono', monospace;
         line-height: 1.5;
         font-weight: 400;
 
+        --h: bold 5rem var(--ff);
+        --h1: bold 3.5rem var(--ff);
+        --h2: bold 2.5rem var(--ff);
+        --h3: bold 1.5rem var(--ff);
+        --h4: bold 1.25rem var(--ff);
+        --h5: bold 1rem var(--ff);
+
+        --pl: 1.5rem var(--ff);
+        --p: 1rem var(--ff);
+
+        --gray100: hsl(0, 0%, 100%);
+        --gray90: hsl(0, 0%, 90%);
+        --gray80: hsl(0, 0%, 80%);
+        --gray70: hsl(0, 0%, 70%);
+        --gray0: hsl(0, 0%, 0%);
+
+        
         color-scheme: light dark;
         color: rgba(255, 255, 255, 0.87);
         background-color: var(--background-color);
