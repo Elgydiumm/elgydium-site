@@ -87,7 +87,7 @@
         font: var(--h);
         text-align: center;
         width: 100%;
-        margin-bottom: 2rem;
+        margin-bottom: 0.5rem;
         padding: 0 10px;
         box-sizing: border-box;
     }
@@ -97,6 +97,7 @@
         text-align: center;
         width: 100%;
         margin: 0;
+        margin-bottom: 1.5rem;
         padding: 0 10px;
         box-sizing: border-box;
         opacity: 0;
