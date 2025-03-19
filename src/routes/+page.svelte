@@ -48,6 +48,7 @@
 <div class="landing">
     <h class="typing-effect typing-header">Elgydium.</h>
     <p class="typing-effect typing-paragraph-name name" class:mobile={isMobile}>Eemeli Väljä</p>
+    <p class="typing-effect typing-paragraph-email name" class:mobile={isMobile}>contact@elgy.fi</p>
     <p class="typing-effect typing-paragraph" class:mobile={isMobile}>"Well if it was in the assignment then I probably forgot to read it"</p>
 
     <div class="tech-stack">
@@ -120,6 +121,9 @@
     }
     .typing-paragraph-name {
         animation: typingWithFade 2s steps(760, end) forwards 0.3s;
+    }
+    .typing-paragraph-email {
+        animation: typingWithFade 2s steps(760, end) forwards 0.7s;
     }
 
     .typing-paragraph {
