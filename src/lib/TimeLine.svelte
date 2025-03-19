@@ -238,7 +238,7 @@
                        height: {getPositionByDate(item.startDate) - getPositionByDate(item.endDate || new Date())}%;
                        {isMobile ? 
                          'left: 31px; transform: none;' : 
-                         `left: calc(50% - ${(1 + laneIndex)}vw);`}">
+                         `left: calc(50% - ${(20 + 15 * laneIndex)}px);`}">
                 <span class="duration-dot end-dot"></span>
                 <span class="duration-dot start-dot"></span>
             </div>

@@ -10,6 +10,43 @@
     let portfolioVisible = false;
     let portfolioSection: HTMLElement;
 
+    let workExperienceSection: HTMLElement;
+
+    function scrollToExperience() {
+        if (workExperienceSection) {
+        const startPosition = window.pageYOffset;
+        const targetPosition = workExperienceSection.getBoundingClientRect().top + window.pageYOffset;
+        const distance = targetPosition - startPosition;
+        const duration = 1200; 
+        let startTime: number | null = null;
+
+        // Animation function using requestAnimationFrame for smoother performance
+        function animation(currentTime: number) {
+            if (startTime === null) startTime = currentTime;
+            const timeElapsed = currentTime - startTime;
+            const progress = Math.min(timeElapsed / duration, 1);
+            
+            // Easing function for natural acceleration/deceleration
+            const ease = easeInOutCubic(progress);
+            
+            window.scrollTo(0, startPosition + distance * ease);
+            
+            if (timeElapsed < duration) {
+                requestAnimationFrame(animation);
+            }
+        }
+        
+        // Cubic easing function - acceleration until halfway, then deceleration
+        function easeInOutCubic(t: number) {
+            return t < 0.5 
+                ? 4 * t * t * t 
+                : (t - 1) * (2 * t - 2) * (2 * t - 2) + 1;
+        }
+
+        requestAnimationFrame(animation);
+        }
+    }
+
     onMount(() => {
         isMobile = window.innerWidth <= 768;
         
@@ -51,6 +88,10 @@
     <p class="typing-effect typing-paragraph-email name" class:mobile={isMobile}>contact@elgy.fi</p>
     <p class="typing-effect typing-paragraph" class:mobile={isMobile}>"Well if it was in the assignment then I probably forgot to read it"</p>
 
+    <button class="experience-button" on:click={scrollToExperience} style="animation-delay: 600ms;">
+        Work Experience
+    </button>
+
     <div class="tech-stack">
         {#each techStack as techName, i}
             {@const tech = findTechDetails(techName)}
@@ -65,7 +106,7 @@
     </div>
 </div>
 
-<div class="portfolio">
+<div class="portfolio" bind:this={workExperienceSection}>
     <h>Work Experience</h>
     <div class="timeline-container" class:visible={portfolioVisible} bind:this={portfolioSection}>
         <TimeLine/>
@@ -135,6 +176,27 @@
         width: 90%;
         overflow: visible;
         animation: fadeIn 0.4s ease-in-out forwards 0.7s;
+    }
+
+    .experience-button {
+        margin-top: 1rem;
+        margin-bottom: 1.5rem;
+        padding: 10px 20px;
+        background-color: rgba(24, 24, 24, 0.6);
+        color: var(--gray90);
+        border: none;
+        border-radius: 6px;
+        font: var(--p);
+        cursor: pointer;
+        transition: all 0.3s ease;
+        animation: fadeSlideUp 0.5s ease forwards;
+    }
+    
+    .experience-button:hover {
+        transform: translateY(-15px);
+        background-color: rgba(24, 24, 24, 0.9); /* Match job panel hover */
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.4);
+        color: var(--selected-color);
     }
 
     .tech-stack {
