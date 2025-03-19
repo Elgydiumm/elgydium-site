@@ -88,7 +88,7 @@
     <p class="typing-effect typing-paragraph-email name" class:mobile={isMobile}>contact@elgy.fi</p>
     <p class="typing-effect typing-paragraph" class:mobile={isMobile}>"Well if it was in the assignment then I probably forgot to read it"</p>
 
-    <button class="experience-button" on:click={scrollToExperience} style="animation-delay: 600ms;">
+    <button class="experience-button" on:click={scrollToExperience}>
         Work Experience
     </button>
 
@@ -180,7 +180,6 @@
 
     .experience-button {
         margin-top: 1rem;
-        margin-bottom: 1.5rem;
         padding: 10px 20px;
         background-color: rgba(24, 24, 24, 0.6);
         color: var(--gray90);
@@ -189,7 +188,9 @@
         font: var(--p);
         cursor: pointer;
         transition: all 0.3s ease;
+        opacity: 0;
         animation: fadeSlideUp 0.5s ease forwards;
+        animation-delay: 1000ms;
     }
     
     .experience-button:hover {
