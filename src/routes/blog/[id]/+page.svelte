@@ -12,7 +12,7 @@
     const selectedPost = blogPosts.find(p => p.id === postId) || {
         id: '404',
         title: 'Post Not Found',
-        date: 'Error',
+        date: new Date(Date.now()),
         summary: 'This post could not be found.',
         content: `<p>We couldn't find the post you were looking for. Please return to the blog index.</p>`,
         image: '/images/blog-placeholder.jpg',
@@ -25,6 +25,19 @@
             document.getElementById('expanded-overlay')?.style.setProperty('height','0px');
         }
         goto('/blog');
+    }
+
+    function formatDate(dateInput: Date) {
+        const date = dateInput instanceof Date ? dateInput : new Date(dateInput);
+        
+        // Check if date is valid
+        if (isNaN(date.getTime())) {
+            return dateInput; // Return original string if it couldn't be parsed
+        }
+        
+        // Format: Month Day, Year
+        const options: Intl.DateTimeFormatOptions = { year: 'numeric', month: 'long', day: 'numeric' };
+        return date.toLocaleDateString('en', options);
     }
     </script>
 
@@ -44,7 +57,7 @@
                 <div class="blog-image expanded" style="background-image: url('{selectedPost.image || ''}')">
                     <div class="blog-overlay"></div>
                     <h1 class="expanded-title">{selectedPost.title}</h1>
-                    <div class="expanded-date">{selectedPost.date}</div>
+                    <div class="expanded-date">{formatDate(selectedPost.date)}</div>
                 </div>
                 
                 <div class="detail-container">
