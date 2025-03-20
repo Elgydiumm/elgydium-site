@@ -6,7 +6,8 @@ export const projects = [
         fullDescription: "An interactive and smooth website template built with SvelteKit. It has a clean display of work experience, a simple projects screen and my personal blog.",
         image: "/project_previews/elgydium.fi.png", // Replace with actual image path
         technologies: ["Svelte", "TypeScript", "CSS"],
-        url: "htttps://elgydium.fi",
+        url: "https://elgy.fi",
+        github: "https://github.com/Elgydiumm/elgydium-site",
         date: "March 2025"
     },
     {

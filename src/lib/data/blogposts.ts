@@ -39,7 +39,7 @@ export const blogPosts = [
         <h3>The Ugly</h3> 
         <p>The ugh. Ugly.</p>
         <pre><code>// Rest of your script remains unchanged</code></pre>
-        <pre><code>// Prints out "Hello World!\nconsole.log("Hello World!");S</code></pre>
+        <pre><code>// Prints out "Hello World!\nconsole.log("Hello World!");</code></pre>
         <p>The models tend to overcomment their work as a means of communicating with the person using it, and is not really such a major issue as it is annoying having to go around cleaning up your codebase. Though on the other hand while this is annoying and takes time and effort it also incentivises you to read through your codebase and understand wether a comment is necessary or not. It also promotes refactoring parts of a code to be clearer to remove the need for unnecessary commenting. I find the constant comments by models to be annoying, but also help me to not just be lazy and not read through the code and force me to understand what the generated code, no matter how simple, does to promote me to remove the comment as unnecessary.</p>
         <h3>The takeaway?</h3>
         <p>AI is cool, and has changed and will continue to change the field of software development in major ways. I believe it to be an important corner of improved productivity in coding, and that it will be implemented into most programmers daily workflow in some way.

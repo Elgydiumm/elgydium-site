@@ -42,17 +42,11 @@
     </script>
 
 
-<div 
-            class="expanded-overlay"
-            id="expanded-overlay"
-            transition:fade={{duration: 250}}>
-            
-            <div 
-                class="blog-card expanded"
+<div class="expanded-overlay" id="expanded-overlay" transition:fade={{duration: 250}}>
+    <a href="/blog" id="blog" class="close-btn" on:click={goBack}><u>Go Back</u></a>
+            <div class="blog-card expanded"
                 in:fly={{y: -30, duration: 400, easing: cubicOut}}
                 out:fly={{y: -30, opacity: 0, duration: 300, easing: cubicOut}}>
-                
-                <a href="/blog" id="blog" class="close-btn" on:click={goBack}><u>Go Back</u></a>
                 
                 <div class="blog-image expanded" style="background-image: url('{selectedPost.image || ''}')">
                     <div class="blog-overlay"></div>
