@@ -5,10 +5,40 @@
     import { blogPosts } from '$lib/data/blogposts';
     import { writable } from 'svelte/store';
     import { findTechDetails, hexToRgb } from '$lib/utils';
+
+    type BlogPost = {
+        id: string;
+        title: string;
+        date: Date;
+        summary: string;
+        content: string;
+        image?: string;
+        tags: string[];
+    };
     
     let mounted = false;
+
+    const sortedBlogPosts = [...blogPosts].sort((a, b) => {
+        const dateA = a.date instanceof Date ? a.date : new Date(a.date);
+        const dateB = b.date instanceof Date ? b.date : new Date(b.date);
+        return dateB.getTime() - dateA.getTime();
+    });
     
-    const selectedPost = writable<{ id: any; title?: string; date?: string; summary?: string; content?: string; image?: string; tags?: string[] } | null>(null);
+    // Function to format dates nicely
+    function formatDate(dateInput: Date) {
+        const date = dateInput instanceof Date ? dateInput : new Date(dateInput);
+        
+        // Check if date is valid
+        if (isNaN(date.getTime())) {
+            return dateInput; // Return original string if it couldn't be parsed
+        }
+        
+        // Format: Month Day, Year
+        const options: Intl.DateTimeFormatOptions = { year: 'numeric', month: 'long', day: 'numeric' };
+        return date.toLocaleDateString('en', options);
+    }
+    
+    const selectedPost = writable<BlogPost | null>(null);
 
     let isMobile = false;
 
@@ -39,7 +69,7 @@
     <h1 class="page-title" in:fade={{duration: 600, delay: 400}}>Blog</h1>
     
     <div class="blog-grid">
-        {#each blogPosts as post, index (post.id)}
+        {#each sortedBlogPosts as post, index (post.id)}
             <div class="blog-card-container">
                 {#if mounted}
                     <a 
@@ -49,7 +79,7 @@
                         tabindex="0">
                         
                         <div class="blog-content">
-                            <div class="blog-date">{post.date}</div>
+                            <div class="blog-date">{formatDate(post.date)}</div>
                             <h2>{post.title}</h2>
                             <p class="blog-summary">{post.summary}</p>
                             

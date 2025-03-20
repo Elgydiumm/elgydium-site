@@ -2,7 +2,7 @@ export const blogPosts = [
     {
         id: 'test_post',
         title: 'Test Post',
-        date: 'March 10, 2025',
+        date: new Date("2025-03-10"),
         summary: 'A post to test the blog.',
         content: `
         <h3>Test Heading</h3>  

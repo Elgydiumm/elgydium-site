@@ -6,7 +6,7 @@
     export let post: {
         id: string;
         title: string;
-        date: string;
+        date: Date | string;
         summary: string;
         content: string;
         image?: string;
