@@ -61,11 +61,51 @@
 
 <style>
     .close-btn {
+        position: absolute;
         top: 1rem;
         right: 1rem;
         color: var(--selected-color);
         font-size: 1.5rem;
         text-decoration: none;
         z-index: 100;
+    }
+
+    .blog-image.expanded {
+        width: 100%;
+        max-width: 800px;
+        margin: 0 auto;
+        text-align: center;
+        background-size: cover;
+        margin-bottom: 1.5rem;
+    }
+    
+    .detail-container {
+        width: 100%;
+        max-width: 800px;
+        margin: 0 auto;
+        padding: 0 20px;
+        box-sizing: border-box;
+        position: relative;
+    }
+    
+    .scrollable-content {
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        text-align: start;
+    }
+
+    .expanded-overlay {
+        display: flex;
+        justify-content: center;
+        align-items: flex-start;
+        padding-top: 2rem;
+    }
+    
+    .blog-card.expanded {
+        max-width: 900px;
+        width: 90%;
+        margin: 0 auto;
     }
 </style>
