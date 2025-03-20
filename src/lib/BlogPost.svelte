@@ -6,7 +6,7 @@
     export let post: {
         id: string;
         title: string;
-        date: Date | string;
+        date: Date;
         summary: string;
         content: string;
         image?: string;
@@ -16,6 +16,21 @@
     // Controls the sequential appearance of sections
     const baseDelay = 100;
     const sectionStep = 80;
+
+
+    //ToDo add this to one file and just import it
+    function formatDate(dateInput: Date) {
+        const date = dateInput instanceof Date ? dateInput : new Date(dateInput);
+        
+        // Check if date is valid
+        if (isNaN(date.getTime())) {
+            return dateInput; // Return original string if it couldn't be parsed
+        }
+        
+        // Format: Month Day, Year
+        const options: Intl.DateTimeFormatOptions = { year: 'numeric', month: 'long', day: 'numeric' };
+        return date.toLocaleDateString('en', options);
+    }
 </script>
 
 <div class="blog-post-container">
@@ -53,7 +68,7 @@
     <div class="post-footer section" in:fly={{y: -30, duration: 400, delay: baseDelay + sectionStep * 3, easing: cubicOut}}>
         <div class="post-meta">
             <span class="separator">•</span>
-            <span class="post-date">{post.date}</span>
+            <span class="post-date">{formatDate(post.date)}</span>
         </div>
     </div>
 </div>
