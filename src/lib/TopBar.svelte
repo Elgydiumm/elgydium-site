@@ -88,7 +88,7 @@
         top: 50px; /* Position right below the top bar */
         left: 0;
         right: 0;
-        z-index: 1;
+        z-index: 100;
         height: 0; /* No height itself */
         pointer-events: none; /* Allow clicks to pass through */
     }
