@@ -844,20 +844,97 @@
         to { opacity: 1; }
     }
     
-    /* Responsive adjustments for lightbox */
+    /* Mobile and responsive styles */
     @media (max-width: 768px) {
-        .lightbox-nav {
-            width: 40px;
-            height: 40px;
-            font-size: 1.2rem;
-        }
-        
-        .lightbox-prev {
-            left: 10px;
-        }
-        
-        .lightbox-next {
-            right: 10px;
-        }
+      /* Layout adjustments for mobile */
+      .side-nav {
+        transform: translateX(-100%);
+        width: 85%;
+        max-width: 300px;
+        transition: transform 0.3s ease;
+      }
+      
+      .side-nav.visible {
+        transform: translateX(0);
+      }
+      
+      .side-nav:hover {
+        width: 85%; /* Keep consistent width on mobile */
+      }
+      
+      /* Show the close button for sidebar on mobile */
+      .close-sidebar {
+        display: block;
+      }
+      
+      /* Display the hamburger menu button */
+      .sidebar-toggle {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        position: fixed;
+        z-index: 100;
+      }
+      
+      /* Adjust content area to use full width */
+      .content-area {
+        margin-left: 0;
+        padding: 1.5rem 1rem;
+      }
+      
+      /* Header adjustments */
+      header {
+        margin-top: 2rem;
+        margin-bottom: 2rem;
+      }
+      
+      h1 {
+        font-size: 1.8rem;
+      }
+      
+      h2 {
+        font-size: 1.2rem;
+      }
+      
+      /* Project view adjustments */
+      .expanded-project {
+        padding: 1.5rem 1rem;
+        max-height: 80vh;
+      }
+      
+      .expanded-header h3 {
+        font-size: 1.5rem;
+      }
+      
+      /* Gallery adjustments */
+      .gallery {
+        grid-template-columns: 1fr;
+        gap: 1.5rem;
+      }
+      
+      .gallery.large-collection {
+        grid-template-columns: 1fr;
+      }
+    }
+    
+    /* Overlay for when the mobile sidebar is open */
+    .sidebar-overlay {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background-color: rgba(0, 0, 0, 0.7);
+      z-index: 150;
+    }
+    
+    @media (max-width: 768px) {
+      .sidebar-overlay.visible {
+        display: block;
+      }
     }
 </style>
+
+<!-- Add overlay element for mobile sidebar -->
+<div class="sidebar-overlay" class:visible={isSidebarOpen} on:click={toggleSidebar}></div>
