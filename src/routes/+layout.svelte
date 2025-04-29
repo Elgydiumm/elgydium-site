@@ -13,10 +13,14 @@
     const isMobile = browser && window.innerWidth <= 768;
 
     const currentPath = derived(page, ($page) => $page.url.pathname);
+
+    $: isKuvisPage = $currentPath === '/kuvis';
 </script>
 
 <main>
-    <TopBar />
+    {#if !isKuvisPage}
+        <TopBar />
+    {/if}
     <div class="page">
         <slot />
     </div>
