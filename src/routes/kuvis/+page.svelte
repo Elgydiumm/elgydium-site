@@ -311,7 +311,7 @@
     }
     
     .welcome-message::before {
-      content: '👋';
+      content: '';
       font-size: 3rem;
       margin-bottom: 1.5rem;
       animation: wave 2s infinite;
