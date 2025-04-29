@@ -94,7 +94,13 @@
     // State for tracking which project is expanded
     let expandedProjectId: number | null = $state(null);
     let isSidebarOpen: boolean = $state(false);
-
+    
+    // State for lightbox
+    let lightboxOpen: boolean = $state(false);
+    let currentLightboxImage: string = $state('');
+    let currentLightboxIndex: number = $state(0);
+    let currentProject: Project | null = $state(null);
+    
     function toggleSidebar() {
       isSidebarOpen = !isSidebarOpen;
     }
@@ -125,7 +131,65 @@
         toggleProject(id);
       }
     }
+
+    // Helper function to determine if a collection is large
+    function isLargeCollection(images: string[]): boolean {
+      return images.length > 3;
+    }
+    
+    // Open the lightbox for a specific image - improved handler
+    function openLightbox(project: Project, imageIndex: number) {
+        console.log('Opening lightbox for image', imageIndex);
+        currentProject = project;
+        currentLightboxIndex = imageIndex;
+        currentLightboxImage = project.images[imageIndex];
+        lightboxOpen = true;
+        
+        // Prevent scrolling on body when lightbox is open
+        document.body.style.overflow = 'hidden';
+    }
+    
+    // Close the lightbox
+    function closeLightbox() {
+        lightboxOpen = false;
+        
+        // Restore scrolling
+        document.body.style.overflow = '';
+    }
+    
+    // Navigate to the next image in the current project
+    function nextImage() {
+        if (!currentProject) return;
+        currentLightboxIndex = (currentLightboxIndex + 1) % currentProject.images.length;
+        currentLightboxImage = currentProject.images[currentLightboxIndex];
+    }
+    
+    // Navigate to the previous image in the current project
+    function prevImage() {
+        if (!currentProject) return;
+        currentLightboxIndex = (currentLightboxIndex - 1 + currentProject.images.length) % currentProject.images.length;
+        currentLightboxImage = currentProject.images[currentLightboxIndex];
+    }
+    
+    // Handle keyboard navigation in lightbox
+    function handleLightboxKeydown(event: KeyboardEvent) {
+        if (!lightboxOpen) return;
+        
+        switch (event.key) {
+            case 'Escape':
+                closeLightbox();
+                break;
+            case 'ArrowRight':
+                nextImage();
+                break;
+            case 'ArrowLeft':
+                prevImage();
+                break;
+        }
+    }
 </script>
+
+<svelte:window on:keydown={handleLightboxKeydown} />
 
 <main>
     <aside class="side-nav" class:visible={isSidebarOpen}>
@@ -176,27 +240,32 @@
                 >
                   <div class="expanded-header">
                     <h3 id={`project-title-${project.id}`} tabindex="-1">{project.title}</h3>
-                    <button 
-                      class="close-button" 
-                      on:click={() => toggleProject(project.id)}
-                      aria-label="Close project details"
-                    >
-                      ×
-                    </button>
                   </div>
                   
                   <div class="expanded-content">
                     <div class="description">
                       <p class="project-text">{project.description}</p>
                     </div>
-                    <div class="gallery" role="group" aria-label="Project images">
+                    <div class="gallery" class:large-collection={isLargeCollection(project.images)} role="group" aria-label="Project images">
                       {#each project.images as image, i}
-                        <img 
-                          src={image} 
-                          alt={`${project.title} - Image ${i+1}`} 
-                          class="gallery-image" 
-                          style="animation-delay: {i * 0.1}s"
-                        />
+                        <div 
+                          class="gallery-image-wrapper"
+                          on:click={() => openLightbox(project, i)}
+                          on:keydown={(e) => e.key === 'Enter' && openLightbox(project, i)}
+                          tabindex="0"
+                          role="button"
+                          aria-label="View larger image of {project.title} - Image {i+1}"
+                        >
+                          <img 
+                            src={image} 
+                            alt={`${project.title} - Image ${i+1}`} 
+                            class="gallery-image" 
+                            style="animation-delay: {i * 0.1}s"
+                          />
+                          <div class="gallery-image-overlay">
+                            <span class="click-to-enlarge">Paina suurentaaksesi</span>
+                          </div>
+                        </div>
                       {/each}
                     </div>
                   </div>
@@ -209,6 +278,31 @@
             </div>
         {/if}
     </div>
+
+    <!-- Lightbox modal for enlarged images -->
+    {#if lightboxOpen}
+        <div class="lightbox" on:click={closeLightbox} role="dialog" aria-modal="true" aria-label="Image preview">
+            <div class="lightbox-content" on:click|stopPropagation>
+                <button class="lightbox-close" on:click={closeLightbox} aria-label="Close image preview">×</button>
+                
+                {#if currentProject && currentProject.images.length > 1}
+                    <button class="lightbox-nav lightbox-prev" on:click={prevImage} aria-label="Previous image">
+                        <span aria-hidden="true">&#10094;</span>
+                    </button>
+                    <button class="lightbox-nav lightbox-next" on:click={nextImage} aria-label="Next image">
+                        <span aria-hidden="true">&#10095;</span>
+                    </button>
+                    <div class="lightbox-counter">
+                        {currentLightboxIndex + 1} / {currentProject.images.length}
+                    </div>
+                {/if}
+                
+                <div class="lightbox-image-container">
+                    <img src={currentLightboxImage} alt="Enlarged view" class="lightbox-image" />
+                </div>
+            </div>
+        </div>
+    {/if}
 </main>
 
 <style>
@@ -323,122 +417,111 @@
       75% { transform: rotate(15deg); }
     }
     
-    /* Expanded project styling enhancements */
+    /* Expanded project styling - add scrolling */
     .expanded-project {
       position: relative;
       background: var(--background-color);
       z-index: 100;
       padding: 2.5rem;
-      overflow: visible;
+      max-height: 85vh; /* Limit height to enable scrolling */
+      overflow-y: auto; /* Add vertical scrolling */
       animation: scaleIn 0.4s cubic-bezier(0.165, 0.84, 0.44, 1) forwards;
       width: 100%;
-      min-height: 70vh;
       border-radius: 12px;
       box-shadow: 0 10px 40px rgba(0, 0, 0, 0.15);
       border: 1px solid var(--card-border);
     }
     
-    .expanded-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 2.5rem;
-      border-bottom: 3px solid transparent;
-      padding-bottom: 1.2rem;
-      position: relative;
-      background-clip: padding-box;
-    }
-    
-    .expanded-header::after {
-      content: '';
-      position: absolute;
-      bottom: -3px;
-      left: 0;
-      right: 0;
-      height: 3px;
-      border-radius: 3px;
-    }
-    
-    .expanded-header h3 {
-      font-size: 2.2rem;
-      margin: 0;
-      color: var(--primary-color);
-      animation: fadeInUp 0.5s ease forwards;
-      outline: none;
-      background-clip: text;
-      font-weight: 600;
-    }
-    
-    .description {
-      line-height: 1.9;
-      color: var(--text-primary);
-      font-size: 1.1rem;
-      padding: 2rem;
-      background: var(--card-background);
-      border-radius: 12px;
-      box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
-      animation: fadeInUp 0.6s ease forwards;
-      animation-delay: 0.3s;
-      opacity: 0;
-      border: 1px solid var(--card-border);
-      margin-bottom: 2.5rem;
-      position: relative;
-      overflow: hidden;
-    }
-    
-    .description::before {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 5px;
-      height: 100%;
-      background: linear-gradient(to bottom, var(--primary-color), var(--secondary-color));
-      border-radius: 3px 0 0 3px;
-    }
-    
+    /* Ensure the gallery has proper spacing */
     .gallery {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-      gap: 2rem;
+      grid-template-columns: repeat(auto-fill, minmax(min(100%, 400px), 1fr));
+      gap: 2rem; /* Increased gap for better separation */
       margin-top: 1rem;
+      margin-bottom: 2rem; /* Add bottom margin for scrolling space */
+      width: 100%;
+      justify-content: center;
+    }
+    
+    /* Make sure images appear clearly */
+    .gallery-image-wrapper {
+      position: relative;
+      cursor: pointer;
+      max-width: 400px;
+      margin: 0 auto;
+      border-radius: 10px;
+      overflow: hidden;
+      transition: all 0.3s ease;
+      margin-bottom: 1rem; /* Additional spacing between images */
+    }
+    
+    .gallery-image-wrapper:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
     }
     
     .gallery-image {
       width: 100%;
-      height: auto;
-      border-radius: 12px;
-      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+      max-width: 400px;
+      max-height: 400px;
+      object-fit: cover;
+      border-radius: 10px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
       transition: all 0.4s ease;
       animation: slideInRight 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
       animation-fill-mode: both;
       opacity: 0;
-      border: 2px solid transparent;
+      border: 1px solid transparent;
       position: relative;
       overflow: hidden;
+      margin: 0 auto;
     }
     
-    .gallery-image::after {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: 0;
-      right: 0;
-      bottom: 0;
-      background: linear-gradient(to bottom, transparent 70%, rgba(0, 0, 0, 0.7));
-      opacity: 0;
-      transition: opacity 0.3s ease;
-      pointer-events: none;
+    .gallery-image-overlay {
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: rgba(0, 0, 0, 0.5);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        opacity: 0;
+        transition: opacity 0.3s ease;
+        border-radius: 10px;
     }
     
-    .gallery-image:hover {
-      transform: translateY(-8px) scale(1.02);
-      box-shadow: 0 15px 35px rgba(0, 0, 0, 0.5);
-      border-color: var(--primary-color);
+    .gallery-image-wrapper:hover .gallery-image-overlay,
+    .gallery-image-wrapper:focus-within .gallery-image-overlay {
+        opacity: 1;
     }
     
-    .gallery-image:hover::after {
-      opacity: 1;
+    .click-to-enlarge {
+        color: #fff;
+        background: rgba(0, 0, 0, 0.7);
+        padding: 0.5rem 1rem;
+        border-radius: 4px;
+        font-size: 0.9rem;
+        transform: translateY(10px);
+        transition: transform 0.3s ease;
+    }
+    
+    .gallery-image-wrapper:hover .click-to-enlarge,
+    .gallery-image-wrapper:focus-within .click-to-enlarge {
+        transform: translateY(0);
+    }
+    
+    /* Add a special layout for collections with many images */
+    .gallery.large-collection {
+      grid-template-columns: repeat(auto-fill, minmax(min(100%, 400px), 1fr));
+    }
+    
+    /* Remove different layouts for responsive design since we're capping at 400px */
+    @media (min-width: 1200px) {
+      .gallery {
+        grid-template-columns: repeat(auto-fill, minmax(min(100%, 400px), 1fr));
+      }
     }
     
     /* Additional animations */
@@ -653,5 +736,128 @@
       .close-button {
         border: 2px solid ButtonText;
       }
+    }
+    
+    /* Lightbox styles */
+    .lightbox {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.9);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        z-index: 1500; /* Increased to ensure it's above everything */
+        animation: fadeIn 0.3s ease forwards;
+    }
+    
+    .lightbox-content {
+        position: relative;
+        width: 90%;
+        height: 90%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+    
+    .lightbox-image-container {
+        width: 100%;
+        height: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+    
+    .lightbox-image {
+        max-width: 100%;
+        max-height: 100%;
+        object-fit: contain;
+        border-radius: 4px;
+        box-shadow: 0 5px 30px rgba(0, 0, 0, 0.3);
+        animation: fadeIn 0.4s ease forwards;
+    }
+    
+    .lightbox-close {
+        position: absolute;
+        top: -40px;
+        right: 0;
+        background: none;
+        border: none;
+        color: white;
+        font-size: 2rem;
+        cursor: pointer;
+        z-index: 1001;
+        transition: all 0.3s ease;
+    }
+    
+    .lightbox-close:hover {
+        color: var(--primary-color);
+        transform: scale(1.1);
+    }
+    
+    .lightbox-nav {
+        position: absolute;
+        top: 50%;
+        transform: translateY(-50%);
+        background: rgba(0, 0, 0, 0.5);
+        color: white;
+        border: none;
+        border-radius: 50%;
+        width: 50px;
+        height: 50px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1.5rem;
+        cursor: pointer;
+        transition: all 0.3s ease;
+    }
+    
+    .lightbox-nav:hover {
+        background: rgba(94, 158, 255, 0.7);
+    }
+    
+    .lightbox-prev {
+        left: 20px;
+    }
+    
+    .lightbox-next {
+        right: 20px;
+    }
+    
+    .lightbox-counter {
+        position: absolute;
+        bottom: -30px;
+        left: 50%;
+        transform: translateX(-50%);
+        color: white;
+        font-size: 1rem;
+        background: rgba(0, 0, 0, 0.5);
+        padding: 5px 10px;
+        border-radius: 15px;
+    }
+    
+    @keyframes fadeIn {
+        from { opacity: 0; }
+        to { opacity: 1; }
+    }
+    
+    /* Responsive adjustments for lightbox */
+    @media (max-width: 768px) {
+        .lightbox-nav {
+            width: 40px;
+            height: 40px;
+            font-size: 1.2rem;
+        }
+        
+        .lightbox-prev {
+            left: 10px;
+        }
+        
+        .lightbox-next {
+            right: 10px;
+        }
     }
 </style>
