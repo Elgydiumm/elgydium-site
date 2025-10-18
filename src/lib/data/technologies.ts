@@ -44,4 +44,5 @@ export const technologies = [
     { name: 'Flutter', icon: `<img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/flutter/flutter-original.svg" />`, color: '#02569B' },
     { name: 'Linux', icon: `<img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/linux/linux-original.svg" />`, color: '#FCC624' },
     { name: 'Ubuntu', icon: `<img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/ubuntu/ubuntu-original.svg" />`, color: '#E95420' },
+    { name: 'TBA', icon: null, color: '#000000' },
 ];

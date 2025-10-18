@@ -1,1 +1,1 @@
-export const techStack = ["Svelte", "React", "TypeScript", "JavaScript", "CSS", "HTML", "Node.js", "Ansible", "Git", "Python", "Keycloak", "PostgreSQL", "Godot"];
+export const techStack = ["Svelte", "React", "TypeScript", "JavaScript", "CSS", "HTML", "Node.js", "Ansible", "Terraform", "Git", "Python", "Keycloak", "PostgreSQL", "Godot"];
